@@ -1,0 +1,67 @@
+/* Start styling here. */
+
+body {
+	padding-top: 50px; 
+}
+
+.navbar {
+	background-color: #ffffff;
+	border-bottom: 4px solid #72E86B;
+}
+
+.nav {
+	padding-top: 5px;
+}
+
+.jumbotron {
+	height: 400px;
+	background: url(../img/jumboBack.jpg); no-repeat center center;
+	color:#ffffff;
+}
+
+.titleLogo {
+	text-align:center;
+	margin: 0 auto;
+}
+
+h1 {
+	margin-bottom: 20px;
+}
+
+.row {
+	margin: 20px 0 20px 0;
+}
+
+.accordionButton {	
+	border-bottom: 1px dotted #cccccc;
+	cursor: pointer;
+	}
+
+.list-group {
+	position: fixed;
+	margin-top: 25px;
+	width: 280px;
+}
+
+
+/* Footer Styling */
+
+.footer {
+	background-color: #252D31;
+	color: #eeeeee;
+	border-top: 4px solid #00aff0;
+}
+
+.credits {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.videoContent {
+	text-align: center;
+	margin: 20px 0 20px 0;
+}
+
+
+
+/* End Footer Styling */
