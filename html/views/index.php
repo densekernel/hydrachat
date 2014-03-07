@@ -8,6 +8,14 @@
   	</div>
 </div>
 <div class="container">
+		<div class="row">
+			<div class="launchBox">
+				<h2 class="">Try a free conference now</h2>
+				<div class="launchButton">
+				<a href="app/index.html"><button type="button" class="btn btn-success btn-lg">Launch Hydrachat</button></a>
+				</div>
+			</div>
+		</div>
 	<div class="row">
 		<h1 class="text-center">See it in action</h1>
 		<div class="videoContent">
