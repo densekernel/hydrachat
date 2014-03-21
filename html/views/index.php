@@ -12,7 +12,7 @@
 			<div class="launchBox">
 				<h2 class="">Try a free conference now</h2>
 				<div class="launchButton">
-				<a href="app/index.html"><button type="button" class="btn btn-success btn-lg">Launch Hydrachat</button></a>
+				<a href="app/index.php"><button type="button" class="btn btn-success btn-lg">Launch Hydrachat</button></a>
 				</div>
 			</div>
 		</div>
