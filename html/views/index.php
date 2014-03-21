@@ -19,7 +19,7 @@
 	<div class="row">
 		<h1 class="text-center">See it in action</h1>
 		<div class="videoContent">
-			<iframe width="640" height="480" src="//www.youtube.com/embed/khjjfQBqL2U" frameborder="0" allowfullscreen></iframe>
+			<iframe width="640" height="360" src="//www.youtube.com/embed/QN_Vst_ot_w?rel=0" frameborder="0" allowfullscreen></iframe>
 		</div>
 		<a class="btn btn-primary pull-right" href="#" type="button">Learn more</a>
 	</div>
