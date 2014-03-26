@@ -5,7 +5,9 @@
     </head>
     <body>
         <h1>Welcome to HydraChat</h1>
+        <h2>Your feed</h2>
         <video id="localVideo"></video>
+        <h2>Start a conference</h2>
         <form id="setupConf" action="dashboard.php" method="post">
             <p>Enter conference name:</p> 
             <input id="confName" name="confName"></input>
