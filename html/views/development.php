@@ -101,6 +101,13 @@
 					</tr>
 				</tbody>
 			</table>
+			<h2>SDK/Collaboration</h2>
+			<p>The software was building using an open source project built by Google called WebRTC. We are using an andditional library called SimpleWebRTC to build the video conferencing software.</p>
+			<h2>Architectural Diagrams</h2>
+			<p>The architecture of the conference uses mesh networking technology to create a true peer to peer nature of the call. Each node is individually paired with the other nodes within the conference. This is strengthening the call signal and also allows each node to drop out without interrupting the conference call.</p>
+			<img src="assets/img/fullMesh.jpg">
+			<h2>Database Design</h2>
+			<img src="assets/img/dataBaseShot.png" width="500">
 		</div>
 	</div>
 </div>
