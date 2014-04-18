@@ -57,6 +57,18 @@
 			<h2>Free</h2>
 			<p>Communicate instantly. No application or account necessary.</p>
 		</div>
-		<a class="btn btn-primary pull-right" href="#" type="button">Learn more</a>
+		<a class="btn btn-primary pull-right" href="features.php" type="button">Learn more</a>
+	</div>
+	<div class="row">
+		<h1 class="text-center">What is HydraChat?</h1>
+		<div class="col-md-6">
+			<p>We are Christodoulos Demetriades (team leader), Zhi Lim Ler and Jonny Manfield. Together, we comprise Team 16 of the Computer Science Systems Engineering module of UCL.</p>
+			<p>More information about the module can be found <a href="http://www.cs.ucl.ac.uk/students/syllabus/undergrad/2013_systems_engineering_project_1/" target="_blank">here</a> and <a href="http://www.cs.ucl.ac.uk/students/syllabus/undergrad/2014_systems_engineering_project_2/" target="_blank">here</a>. More information about the computer science department of UCL can be found <a target="_blank" href="http://www.cs.ucl.ac.uk/">here.</a></p>
+			<p>HydraChat is a project that was assigned to us by the computer science department of UCL and by extension <a href="http://billbuxton.com/" target="_blank">Bill Buxton</a> of <a href="http://research.microsoft.com/en-us/" target="_blank">Microsoft Research</a>.</p>
+		</div>
+		<div class="col-md-6">
+			<p>Hydra sprouted as an idea in the 1990's from the minds of Abigail Sellen, Bill Buxton, and John Arnott. Initially named Hydra, this project basically aimed to create a system which supported four-way video conferencing.</p>
+			<p>Many video conferencing systems exist today such as Skype and Oovoo which allow users to multi-party video conference. The main approach they use is to represent each participant within a quadrant of the screen as shown in the iPad Skype example visible below.</p>
+		</div>
 	</div>
 </div>

@@ -19,6 +19,11 @@ body {
 	color:#ffffff;
 }
 
+.centerMe {
+	text-align: center;
+	padding: 10px;
+}
+
 .titleLogo {
 	text-align:center;
 	margin: 0 auto;
