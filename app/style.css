@@ -6,7 +6,6 @@
 #remotes video.addborder{
 	border: 25px solid azure;
 	border-radius: 15px;
-	bor
 }
 
 #inputCanvas{
@@ -17,6 +16,8 @@
 #localVideo{
     position: absolute;
 	z-index: -1;
+	height:30%;
+	opacity:0.8;
 }
 
 #localVideo.addborder{
@@ -101,7 +102,7 @@ button{
     background-color: azure;
     opacity: 0.7;
     bottom:5px;
-    right:-2000px;
+    right:5px;
 }
 
 
@@ -139,192 +140,3 @@ p{
 }
 
 
-/*ANIMATIONS*/
-#localVideo.flyin{
-	-webkit-animation: flyUp 1s ease 1;
-	animation: flyUp 1s ease 1;
-}
-
-#localVideo.flyleft{
-	-webkit-animation: flyLeft 1s ease 1;
-	animation: flyLeft 1s ease 1;
-}
-
-#localVideo.zoomout{
-	-webkit-animation: zoomOut 2s ease 1;
-	animation: zoomOut 2s ease 1;
-}
-#localVideo.zoomoutleft{
-	-webkit-animation: zoomOutLeft 2s ease 1;
-	animation: zoomOutLeft 2s ease 1;
-}
-
-#localVideo.zoominleft{
-	-webkit-animation: zoomInLeft 2s ease 1;
-	animation: zoomInLeft 2s ease 1;
-}
-
-#localVideo.zoomin{
-	-webkit-animation: zoomIn 2s ease 1;
-	animation: zoomIn 2s ease 1;
-}
-
-#localVideo.borderdown{
-	-webkit-animation: thinBorder 3s ease 1;
-	animation: thinBorder 3s ease 1;
-}
-
-#localVideo.borderup{
-	-webkit-animation: thickBorder 3s ease 1;
-	animation: thickBorder 3s ease 1;
-}
-
-#remotes video.fadein{
-	-webkit-animation: fadeIn 2s ease 1;
-	animation: fadeIn 2s ease 1;
-}
-
-#loading.out{
-	-webkit-animation: textOut 0.5s ease 1;
-	animation: textOut 0.5s ease 1;
-}
-
-#hydra.out{
-	-webkit-animation: hydraOut 0.5s ease 1;
-	animation: hydraOut 0.5s ease 1;
-}
-
-#bonjovi.comein{
-	-webkit-animation: wrapperIn 2s ease 1;
-	animation: wrapperIn 2s ease 1;
-}
-
-@keyframes flyUp{
-	from{top:100%;}
-	to{top:0;}
-}
-
-@-webkit-keyframes flyUp{
-	from{top:100%;}
-	to{top:0;}
-}
-
-@keyframes flyLeft{
-	from{left:100%;}
-	to{left:0;}
-}
-
-@-webkit-keyframes flyLeft{
-	from{left:100%;}
-	to{left:0;}
-}
-
-@keyframes zoomOut{
-	from{height:100%;}
-	to{height:30%;}
-}
-
-@-webkit-keyframes zoomOut{
-	from{height:100%;}
-	to{height:30%;}
-}
-
-@keyframes zoomOutLeft{
-	from{width:100%;}
-	to{width:30%;}
-}
-
-@-webkit-keyframes zoomOutLeft{
-	from{width:100%;}
-	to{width:30%;}
-}
-
-@keyframes zoomInLeft{
-	from{width:30%;}
-	to{width:95%;}
-}
-
-@-webkit-keyframes zoomInLeft{
-	from{width:30%;}
-	to{width:95%;}
-}
-
-@keyframes zoomIn{
-	from{height:30%;}
-	to{height:95%;}
-}
-
-@-webkit-keyframes zoomIn{
-	from{height:30%;}
-	to{height:95%;}
-}
-
-@keyframes fadeIn{
-	from{opacity:0;}
-	to{opacity:1;}
-}
-
-@-webkit-keyframes fadeIn{
-	from{opacity:0;}
-	to{opacity:1;}
-}
-
-@keyframes thinBorder{
-	from{border-width: 20px;}
-	to{border-width: 10px;}
-}
-
-@-webkit-keyframes thinBorder{
-	from{border-width: 20px;}
-	to{border-width: 10px;}
-}
-
-@keyframes thickBorder{
-	from{border-width: 10px;}
-	to{border-width: 20px;}
-}
-
-@-webkit-keyframes thickBorder{
-	from{border-width: 10px;}
-	to{border-width: 20px;}
-}
-
-@keyframes textIn{
-	from{left:100%;}
-	to{left:26%;}
-}
-
-@-webkit-keyframes textIn{
-	from{left:100%;}
-	to{left:26%;}
-}
-
-@keyframes textOut{
-	from{left:26%;}
-	to{left:-2000px;}
-}
-
-@-webkit-keyframes textOut{
-	from{left:26%;}
-	to{left:-2000px;}
-}
-
-@keyFrames hydraOut{
-	from{left:26%;}
-	to{left:2000px;}
-}
-
-@-webkit-keyFrames hydraOut{
-	from{left:26%;}
-	to{left:2000px;}
-}
-
-@keyFrames wrapperIn{
-	from{right:-2000px;}
-	to{right:5px;}
-}
-
-@-webkit-keyFrames wrapperIn{
-	from{right:-2000px;}
-	to{right:5px;}
-}

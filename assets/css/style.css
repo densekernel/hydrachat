@@ -46,8 +46,15 @@ h1 {
 	position: fixed;
 	margin-top: 25px;
 	width: 280px;
+	z-index: 1000;
+	background-color: #fff;
 }
 
+.caption {
+	font-size: 10px;
+	color: #000000;
+	text-align: center;
+}
 
 /* Footer Styling */
 

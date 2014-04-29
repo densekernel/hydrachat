@@ -10,12 +10,14 @@
 					<ul>
 						<li><a href="#">Start call</a></li>
 						<li><a href="#">How to guide</a></li>
+						<li><a href="glossary.php">Glossary</a></li>
 					</ul>
 				</div>
 				<div class="col-md-3">
 					<h4>Links</h4>
 					<ul>
 						<li><a href="index.php">Home</a></li>
+						<li><a href="About.php">About</a></li>
 						<li><a href="features.php">Features</a></li>
 						<li><a href="development.php">Development</a></li>
 						<li><a href="documentation.php">Documentation</a></li>

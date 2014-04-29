@@ -2,39 +2,19 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="list-group">
-			  <a href="#introAnchor" class="list-group-item">Requirements</a>
 			  <a href="#reqAnchor" class="list-group-item">Requirements</a>
+			  <a href="#reqAnchor" class="list-group-item">Achievements</a>
 			  <a href="#sdkAnchor" class="list-group-item">SDK/Collaboration</a>
-			  <a href="#" class="list-group-item">Development iterations</a>
-			  <a href="#" class="list-group-item">Architectural diagrams</a>
+			  <a href="#iterAnchor" class="list-group-item">Development iterations</a>
+			  <a href="#archAnchor" class="list-group-item">Architectural diagrams</a>
 			  <a href="#" class="list-group-item">Achievements</a>
 			  <a href="#" class="list-group-item">Implementation (Design Patterns)</a>
-			  <a href="#" class="list-group-item">Project Management</a>
 			  <a href="#" class="list-group-item">Testing</a>
-			  <a href="#" class="list-group-item">Resources</a>
+			  
 			</div>
 		</div>
 		<div class="col-md-8">
 			<h1>Development</h1>
-			<h2><a id="introAnchor">Introduction</a></h2>
-			<div class="text-center">
-				<img width="500" src="assets/img/pipShot.png">
-			</div>
-			<p class="text-center">Skype multiparty video conferencing</p>
-			<p>This video conferencing software is extremely useful in today’s world of communications but is not without its limitations. Inspired by the lack of human social interaction available in the video conference software, the following list of limitations, sourced from Bill Buxton’s blog, spurred on the Hydra concept.</p>
-			<ul>
-				<li>Inability to establish direct eye contact with other participants.</li>
-				<li>Inability to be aware of who, if anyone, is visually attending to them.</li>
-				<li>Inability to selectively listen to different, parallel conversations.</li>
-				<li>Inability to make side comments to other participants.</li>
-				<li>Inability to hold parallel, or private, conversations with particular participants.</li>
-			</ul>
-			<p>Bill Buxton’s Hydra concept tackled this limitation via the introduction of proprietary hardware called Hydra units, dubbed as talking heads. These would be place around the edge of a meeting table to act as a video surrogate of each of the participants.</p>
-			<p>This preserves the spatial cues which govern human social interaction in meeting environments. This eliminates the picture-in-a-pip view used by Skype and others as each Hydra Unit will represent only one participant. This will also allow participants to interact with each Hydra Unit as if they were physical participants. Fig 1.2 below should provides a visualisation of a person facing three Hydra units.</p>
-			<div class="text-center">
-				<img src="assets/img/pipUnit.png" width="500">
-			</div>
-			<p class="text-center"></p>
 			<h2><a id="reqAnchor">Requirements</a></h2>
 			<p>As part of our proof of concept report for the Hydrachat systems completed in the COMP2013: Systems Engineering Module.</p>
 			<p></p>
@@ -121,10 +101,79 @@
 					</tr>
 				</tbody>
 			</table>
+			<h2><a id="achievAnchor">Achievements</a></h2>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>Date</th>
+						<th>Achievement Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td></td>
+						<td>Successful implementation of peer-to-peer connection with 2 participants via WebRTC module.</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td></td>
+						<td>Extended implementation to create multi-party session with many participants, still using peer-to-peer connection.</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td></td>
+						<td>Created conference style interface to hold conferences with 4 participants.</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td></td>
+						<td>Detection of participants head movement via webcam.</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td></td>
+						<td>Managed to traverse Network Address Translation (NAT)'s and firewalls to increase reliability of call quality between peers.</td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td></td>
+						<td>Successful testing in Google Chrome, Mozilla Firefox and Opera internet browsers.</td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td></td>
+						<td>Successful testing of HydraChat working on Android cellular handset.</td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td></td>
+						<td>Successful testing of interoperability between desktop PC's and mobile devices.</td>
+					</tr>
+					<tr>
+						<td>9</td>
+						<td></td>
+						<td>Implementation of system that will automatically assign conference rooms for each participant and their respective set of devices.</td>
+					</tr>
+					<tr>
+						<td>10</td>
+						<td></td>
+						<td>Creation of SQL database that temporarily stores information about the conference, such as number of participants and their usernames.</td>
+					</tr>
+					<tr>
+						<td>11</td>
+						<td></td>
+						<td>Creation of a dashboard that allows users to create conferences by selecting the number of participants they want to have and dynamically view information about ongoing conferences.</td>
+					</tr>
+				</tbody>
+			</table>
 			<h2><a id="sdkAnchor">SDK/Collaboration</a></h2>
 			<p>The software was built using an open source project built by Google called WebRTC. We are using an andditional library called SimpleWebRTC to build the video conferencing software.</p>
-			<h2><a id="sdkAnchor">Development iterations</a></h2>
-			<h2>Architectural Diagrams</h2>
+			<p>The project is open source and anyone can fork the project and contribute. Find the GitHub repository <a href="https://github.com/jonnymanf/hydrachat" target="_blank">here</a>.</p>
+			<p>For real-time communication specialists or developers interested in using <a href="http://www.webrtc.org/" target="_blank">WebRTC</a> or <a href="http://simplewebrtc.com/" target="_blank">SimpleWebRTC</a> for their projects, these can be contributed to directly.</p>
+			<h2><a id="iterAnchor">Development iterations</a></h2>
+			<h2><a id="archAnchor">Architectural Diagrams</a></h2>
 			<p>The architecture of the conference uses mesh networking technology to create a true peer to peer nature of the call. Each node is individually paired with the other nodes within the conference. This is strengthening the call signal and also allows each node to drop out without interrupting the conference call.</p>
 			<div class="text-center">
 				<img class="text-center" src="assets/img/fullMesh.jpg">
@@ -134,9 +183,6 @@
 			<div class="text-center">
 				<img src="assets/img/dataBaseShot.png" width="500">
 			</div>
-			<h2><a id="sdkAnchor">SDK/Collaboration</a></h2>
-			<p>The project is open source and anyone can fork the project and contribute. Find the GitHub repository <a href="https://github.com/jonnymanf/hydrachat" target="_blank">here</a>.</p>
-			<p>For real-time communication specialists or developers interested in using <a href="http://www.webrtc.org/" target="_blank">WebRTC</a> or <a href="http://simplewebrtc.com/" target="_blank">SimpleWebRTC</a> for their projects, these can be contributed to directly.</p>
 		</div>
 	</div>
 </div>

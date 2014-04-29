@@ -1,0 +1,110 @@
+coruscant
+Table by the name of coruscant created.
+taris
+Table by the name of taris created.
+taris
+Could not create table taris
+deathmonkey
+Table by the name of deathmonkey created.
+deathmonkey
+Could not create table deathmonkey
+deathmonkey
+Could not create table deathmonkey
+korriban
+Table by the name of korriban created.
+korriban
+Could not create table korriban
+taliban
+Table by the name of taliban created.
+taliban
+Table by the name of taliban created.
+taliban
+Could not create table taliban
+korriban
+Table by the name of korriban created.
+taliban
+Table by the name of taliban created.
+tython
+Table by the name of tython created.
+Jameos
+Table by the name of Jameos created.
+tython
+Table by the name of tython created.
+tython
+Could not create table tython
+tython
+Table by the name of tython created.
+tython
+Table by the name of tython created.
+westeros
+Table by the name of westeros created.
+westeros
+Could not create table westeros
+easteros
+Table by the name of easteros created.
+nord
+Table by the name of nord created.
+skyrim
+Table by the name of skyrim created.
+skyrim
+Could not create table skyrim
+taris
+Table by the name of taris created.
+console
+Table by the name of console created.
+tython
+Table by the name of tython created.
+hydra
+Table by the name of hydra created.
+Skyrim
+Table by the name of Skyrim created.
+tython
+Table by the name of tython created.
+tython
+Could not create table tython
+tython
+Table by the name of tython created.
+tython
+Could not create table tython
+tython
+Table by the name of tython created.
+TATOOINE
+Table by the name of TATOOINE created.
+TATOOINE
+Table by the name of TATOOINE created.
+deathstar
+Table by the name of deathstar created.
+do not join me
+Could not create table do not join me
+empty
+Table by the name of empty created.
+threesome
+Table by the name of threesome created.
+someConf
+Table by the name of someConf created.
+someConf
+Table by the name of someConf created.
+Test
+Table by the name of Test created.
+testCon545
+Table by the name of testCon545 created.
+deathstar
+Table by the name of deathstar created.
+ttestConference
+Table by the name of ttestConference created.
+tes
+Table by the name of tes created.
+tes
+Could not create table tes
+Hydra
+Table by the name of Hydra created.
+someConf
+Table by the name of someConf created.
+testtest
+Table by the name of testtest created.
+test722
+Table by the name of test722 created.
+newTest56
+Table by the name of newTest56 created.
+j1
+Table by the name of j1 created.

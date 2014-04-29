@@ -4,14 +4,18 @@
         <title>HydraChat - Alpha Version - Video Meetings</title>
         <link rel="stylesheet" type="text/css" href="reset.css" media="screen">
         <link rel="stylesheet" type="text/css" href="style.css" media="screen">
-        <script src="http://simplewebrtc.com/latest.js"></script>
+        <script src="socket.io.js"></script>
+        <script src="simplewebrtc.bundle.js"></script>
+        <script src="webrtc.bundle.js"></script>
+        <script src="mediastream-gain.bundle.js"></script>
+        <!--I have modified headtrackr.js' initiation to bypass getting camera media so that we do no get stuck in an infinite loop -->
         <script src="headtrackr.js"></script>
     </head>
     <body>
         
         <canvas id="inputCanvas"></canvas>
         <h1 id="hydra">Hydra</h1>
-        <p id="loading">Bringing up your face.</p>
+        <p id="loading">Beta Version.</p>
         <p id="capturing">Don't move while we measure your face.</p>
         <p id="ok">Okay all done enjoy.</p>
         <video id="localVideo"></video>
@@ -20,14 +24,12 @@
                 </div>
         </div>
         <div class="wrapper" id="bonjovi">
+                <p id="username"></p>
                 <p id="confLabel"></p>
-                <p id="title">Name your Conference:</p>
+                <p id="title">Call Staging in Progress...</p>
                 <p id="inviteLabel"></p>
                 <p id="subTitle"></p>
-                <form id="createRoom">
-                    <input id="sessionInput" size="15"/>
-                    <button type="submit">Create.</button>
-                </form>
+                <input type = "button" value = "Whisper" id = "whisper"></input>
         </div> 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> 
@@ -36,369 +38,337 @@
 
             var video = document.getElementById("localVideo");
             var connected = false;
+            var hydra = document.getElementById("hydra");
             var loadText = document.getElementById("loading");
             var dashboard = document.getElementById("bonjovi");
             var canvasInput = document.getElementById("inputCanvas");
             var ok = document.getElementById("ok");
             var capturing = document.getElementById("capturing");
-            var htracker = new headtrackr.Tracker({ui:false});
+            var whisper = document.getElementById("whisper");
+            //var htracker = new headtrackr.Tracker({ui:false});
             var remoteVid;
             var max = "95%";
             var whisperThreshold = 25;
             var firstRead = true;
             var proximity;
             var face;
-
-            document.addEventListener('headtrackrStatus',
-                function(event){
-                    if(event.status == "detecting"){
-                        console.log("finding face");
-                    }
-
-                    if(event.status == "found"){
-                        console.log("FOUND FACE");
-                        capturing.style.opacity="0";
-                        capturing.style.left="5000px";
-                        ok.style.opacity="1";
-                        setTimeout(function(){
-                            ok.style.opacity = "0";
-                            ok.style.left="5000px";
-                        }, 3000);
-
-                    }
-                });
-
-            document.addEventListener('headtrackingEvent',
-                function(event){
-                    if(firstRead){
-                        proximity = event.z;
-                        console.log("initial z distance: " + proximity);
-                        firstRead = false;
-                    }
-
-                    if(proximity - event.z >= whisperThreshold){
-                        setTimeout(whisper(proximity - event.z), 3000);
-                    }
-
-                    if(proximity - event.z < whisperThreshold){
-                        setTimeout(disengage(proximity - event.z), 3000);
-                    }
-                });
-
-            function whisper(proxDiff){
-                if(proxDiff >= whisperThreshold){
-                    video.style.borderColor="red";
-                }
-            }
-
-            function disengage(proxDiff){
-                if(proxDiff < whisperThreshold){
-                    video.style.borderColor="#47d475";
-                }
-            }
+            var validNavigation = false;
+            var lastOneIn = true;
+            var premature = false;
+            var whispering = false;
             
-            /*the following two functions resize the video feed in accordance to the browser size*/
-            function sizeVideo(browserHeight, browserWidth, theVideo){
-                
-                if(browserWidth > browserHeight){
-                    theVideo.style.top = "";
-                    theVideo.style.width="";
-                    theVideo.style.height=max;
-                   
-                    var leftPercent = (1-(theVideo.offsetWidth/browserWidth))*50;
-                    var leftInt = parseInt(leftPercent, 10);               
-                    theVideo.style.left= leftInt + "%";
 
-                }
-                else{
-                    theVideo.style.left = "";
-                    theVideo.style.height="";
-                    theVideo.style.width=max;
-                   
-                    var leftPercent = (1-(theVideo.offsetHeight/browserHeight))*50;
-                    var leftInt = parseInt(leftPercent, 10);
-                    theVideo.style.top= leftInt + "%";
-                }
-            }
-
-            function sizeVideos(browserHeight, browserWidth, remote, local){
-                if(browserWidth > browserHeight){
-                    remote.style.top = "";
-                    remote.style.width="";
-                    remote.style.height=max;
-                   
-                    var leftPercent = (1-(remote.offsetWidth/browserWidth))*50;
-                    var leftInt = parseInt(leftPercent, 10);               
-                    remote.style.left= leftInt + "%";
-                    local.style.left = leftInt + "%";
-                    local.style.top = "0";
-                    local.style.width="";
-                    local.style.height="30%";
-
-                }
-                else{
-                    remote.style.left = "";
-                    remote.style.height="";
-                    remote.style.width=max;
-                   
-                    var leftPercent = (1-(remote.offsetHeight/browserHeight))*50;
-                    var leftInt = parseInt(leftPercent, 10);
-                    remote.style.top= leftInt + "%";
-                    local.style.top= leftInt + "%";
-                    local.style.left= "0";
-                    local.style.height="";
-                    local.style.width="30%";
-                }
-                
-
-            }
-            //fly in from bottom
-            function flyinheight(object){
-                object.style.top ="100%";
-                object.style.width="";
-                object.style.height=max;
-                   
-                var leftPercent = (1-(object.offsetWidth/window.innerWidth))*50;
-                var leftInt = parseInt(leftPercent, 10);               
-                object.style.left= leftInt + "%";
-                object.addEventListener("webkitAnimationEnd", function(){
-                    object.style.top="0";
-                    capturing.style.opacity="1";
-                }, false);
-                object.addEventListener("animationend", function(){
-                    object.style.top="0";
-                    capturing.style.opacity="1";
-                }, false);
-                object.classList.add('flyin');
-            }
-            //fly in from right
-            function flyinwidth(object){
-                object.style.left = "100%";
-                object.style.height="";
-                object.style.width=max;
-                   
-                var leftPercent = (1-(object.offsetHeight/window.innerHeight))*50;
-                var leftInt = parseInt(leftPercent, 10);
-                object.style.top= leftInt + "%";
-                object.addEventListener("webkitAnimationEnd", function(){
-                    object.style.left="0";
-                    capturing.style.opacity="1";
-                }, false);
-                object.addEventListener("animationend", function(){
-                    object.style.left="0";
-                    capturing.style.opacity="1";
-                }, false);
-                object.classList.add('flyleft');
-            }
-            //fly in based on screen dimensions
-            function flyin(object, browserHeight, browserWidth){
-                if(browserWidth > browserHeight){
-                    flyinheight(object);
-                }
-                else{
-                    flyinwidth(object);
-                }
-            }
-            //zoomout based on screen dimensions.
-            function zoomout(){
-                if(window.innerWidth > window.innerHeight){
-                video.style.width="";
-                video.addEventListener("webkitAnimationEnd", function(){                   
-                    video.style.height="30%";
-                    video.style.opacity="0.8";
-                }, false);
-                video.addEventListener("animationend", function(){                   
-                    video.style.height="30%";
-                    video.style.opacity="0.8";
-                }, false);
-                video.classList.remove('zoomin');
-                video.classList.remove('zoominleft');
-                video.classList.add('zoomout');
-                }
-                else{
-                video.style.height="";
-                video.addEventListener("webkitAnimationEnd", function(){
-                    video.style.width="30%";
-                    video.style.opacity="0.8";
-                }, false);
-                video.addEventListener("animationend", function(){
-                    video.style.width="30%";
-                    video.style.opacity="0.8";
-                }, false);
-                video.classList.remove('zoomin');
-                video.classList.remove('zoominleft');
-                video.classList.add('zoomoutleft');
-                }
-                
-            }
-            //zoomin based on screen dimensions.
-            function zoomin(){
-                if(window.innerWidth > window.innerHeight){
-                    video.style.width="";
-                    video.addEventListener("webkitAnimationEnd", function(){
-                        sizeVideo(window.innerHeight, window.innerWidth, video);
-                        video.style.opacity="1";
-                    }, false);
-                    video.addEventListener("animationend", function(){
-                        sizeVideo(window.innerHeight, window.innerWidth, video);
-                        video.style.opacity="1";
-                    }, false);
-                    video.classList.remove('zoomout');
-                    video.classList.remove('zoomoutleft');
-                    video.classList.add('zoomin');
-                }
-                else{
-                    video.style.height="";
-                    video.addEventListener("webkitAnimationEnd", function(){
-                        sizeVideo(window.innerHeight, window.innerWidth, video);
-                        video.style.opacity="1";
-                    }, false);
-                    video.addEventListener("animationend", function(){
-                        sizeVideo(window.innerHeight, window.innerWidth, video);
-                        video.style.opacity="1";
-                    }, false);
-                    video.classList.remove('zoomout');
-                    video.classList.remove('zoomoutleft');
-                    video.classList.add('zoominleft');
-                }
-
-            }
-
-            /*resize depending on whether there are two feeds or one feed on screen*/
-            window.onresize = function(){
-                if(!connected)
-                    sizeVideo(window.innerHeight, window.innerWidth, video);
-                if(connected)
-                    sizeVideos(window.innerHeight, window.innerWidth, remoteVid, video);
-            };
-
-            /*fly in the local video when it is ready to play*/
-            video.onplay=function(){
-                if(!connected){
-                    video.classList.add('addborder');
-                    flyin(video, window.innerHeight, window.innerWidth);
-                    loadText.addEventListener("webkitAnimationEnd", function(){
-                        loadText.style.left="-500px";
-                    }, false);
-                     loadText.addEventListener("animationend", function(){
-                        loadText.style.left="-500px";
-                    }, false);
-                    loadText.classList.add('out');
-
-                    hydra.addEventListener("webkitAnimationEnd", function(){
-                        hydra.style.left="100%";
-                    }, false);
-                     hydra.addEventListener("animationend", function(){
-                        hydra.style.left="100%";
-                    }, false);
-                    hydra.classList.add('out');
-
-                    dashboard.addEventListener("webkitAnimationEnd", function(){
-                        dashboard.style.right="5px";
-                    }, false);
-                    dashboard.addEventListener("animationend", function(){
-                        dashboard.style.right="5px";
-                    }, false);
-                    dashboard.classList.add('comein');
-                    htracker.modInit(video,canvasInput);
-                    htracker.start();
-                    
-                }
-                //such condition probably will not exist but just in case.
-                if(connected)
-                    sizeVideos(window.innerHeight, window.innerWidth, remoteVid, video);
-                console.log("YELLO!");
-            };
-
-            /* grab the room from the URL*/
-            var room = location.search && location.search.split('?')[1];
-
-            // create our webrtc connection
+            
             var webrtc = new SimpleWebRTC({
                 localVideoEl: 'localVideo',
                 remoteVideosEl: 'remotes',
                 autoRequestMedia: true,
                 debug: true,
                 detectSpeakingEvents: true,
-                autoAdjustMic: false
+                autoAdjustMic: true
             });
-           
             
-            webrtc.on('localStream', function(){
-                console.log('STEAM');
-                
-            });
 
-
-            // when it's ready, join if we got a room from the URL
-            webrtc.on('readyToCall', function () {
-                if (room){
-                    webrtc.joinRoom(room);
-                }
-            });
-
-            //fade in the remote video and zoomout the local video when connection is made
-            webrtc.on('channelOpen', function(){
-                console.log("i can mess around here");
-                remoteVid = document.querySelector('#remotes video');
-                console.log(remoteVid.offsetWidth);
-                connected = true;
-                remoteVid.onplay = function(){
-                sizeVideo(window.innerHeight, window.innerWidth, remoteVid);
-                remoteVid.style.opacity="0";
-                remoteVid.addEventListener("webkitAnimationEnd", function(){
-                    remoteVid.style.opacity="1";
-                }, false);
-                remoteVid.addEventListener("animationend", function(){
-                    remoteVid.style.opacity="1";
-                }, false);
-                remoteVid.classList.add('addborder');
-                remoteVid.classList.add('fadein');
-                zoomout();
-                };
-            });
-
-            //zoom in the local video when opponent pulls plug.
-            webrtc.on('videoRemoved', function(){
-                console.log("SHENANIGAN");
-                connected = false;
-                zoomin();
-            });
-
-           
-            
-            // Since we use this twice we put it here
+            // create our webrtc connection
+          
             function setRoom(name) {
-                $('form').remove();
-                $('#confLabel').text('In conference: ')
-                $('#title').text(name);
-                $('#inviteLabel').text('Invite others: ')
-                $('#subTitle').text(location.href);
-                $('body').addClass('active');
+                $('#title').text("Device patched through.");
+                $('#inviteLabel').text("On The Far Side: " + name);
+              
             }
 
-            if(room){
-                setRoom(room);
-            } 
-            else{
-                $('form').submit(function () {
-                    var val = $('#sessionInput').val().toLowerCase().replace(/\s/g, '-').replace(/[^A-Za-z0-9_\-]/g, '');
-                    webrtc.createRoom(val, function (err, name){
-                        console.log(' create room cb', arguments);
-                        var newUrl = location.pathname + '?' + name;
-                        if(!err){
-                            history.replaceState({foo: 'bar'}, null, newUrl);
-                            setRoom(name);
-                        } 
-                        else{
-                            console.log(err);
+            //ajax call to db to check number of devices in room.
+            function updateStagingProgress(){
+                $.ajax({
+                    url:"callstager.php",
+                    type:"GET",
+                    data: {confname: sessionStorage.confname,
+                            devices: sessionStorage.stagingprogress},
+                    timeout: 3000*60,
+                    error: function(xhr){
+                        console.log("Error: " + xhr.status + " " + xhr.statusText);
+                        if(!checkRoomFull()){
+                            updateStagingProgress();
                         }
-                    });
-                    return false;          
+
+                    },
+
+                    success: function(data, status){
+                        sessionStorage.setItem("stagingprogress", data);
+                        if(!checkRoomFull()){
+                            console.log("repolling the database");
+                            updateprogress();
+                            updateStagingProgress();
+                        }else{
+                           
+                            makethelink();
+                        }
+                    }
+
+
                 });
             }
 
+         
+            //function to check if room is full depending on the max capacity specified.
+            function checkRoomFull(){
+                var isRoomFull = false
+                if(sessionStorage.confpeople == 2){
+                    if(sessionStorage.stagingprogress == 2){
+                        isRoomFull = true;
+                    }else{
+                        console.log(sessionStorage.stagingprogress + " out of 2 present.");
+                    }
+                }
+
+                if(sessionStorage.confpeople == 3){
+                    if(sessionStorage.stagingprogress == 6){
+                        isRoomFull = true;
+                    }else{
+                        console.log(sessionStorage.stagingprogress + " out of 6 present.");
+                    }
+                }
+
+                if(sessionStorage.confpeople == 4){
+                    if(sessionStorage.stagingprogress == 12){
+                        isRoomFull = true;
+                    }else{
+                        console.log(sessionStorage.stagingprogress + " out of 12 present.");
+                    }
+                }
+
+                if(isRoomFull){
+                    console.log("room is full: conference commences.");
+                }
+                return isRoomFull;
+            }
+
+            //ajax update for UI.
+            function updateprogress(){
+                if(sessionStorage.confpeople == 2)
+                     $('#inviteLabel').text(sessionStorage.stagingprogress + "/2 ready");
+                if(sessionStorage.confpeople == 3)
+                     $('#inviteLabel').text(sessionStorage.stagingprogress + "/6 ready");
+                if(sessionStorage.confpeople == 4)
+                    $('#inviteLabel').text(sessionStorage.stagingprogress + "/12 ready");
+            }
+
+            //create ptp link with webrtc
+            function makethelink(){
+                $.get("gethernumber.php", {mynumber: sessionStorage.device, room: sessionStorage.confname}, function(data){
+                    console.log(data.stub);
+                    console.log(data.role);
+                    console.log(data.peer);
+                    var connectionStub = data.stub;
+                    var role = data.role;
+                    sessionStorage.setItem("peer", data.peer);
+
+                    $('#inviteLabel').text("Patching you through to " + data.peer);
+                    $('#title').text("Thanks for waiting.");
+
+                    if(premature){
+                        webrtc.joinRoom(data.stub);
+                    }else{
+                        webrtc.on('readyToCall', function(){ 
+                            webrtc.joinRoom(data.stub); 
+                        });
+                    }
+                }, "json");
+            }
+
+            function checkForWhisper(){
+                $.ajax({
+                    url:"checkwhisper.php",
+                    type:"GET",
+                    data: {confname: sessionStorage.confname,
+                            uuid: sessionStorage.device,
+                            whisperingto: sessionStorage.whisperingto},
+                    timeout: 3000*60,
+                    error: function(xhr){
+                        console.log("Error: " + xhr.status + " " + xhr.statusText);
+                        checkForWhisper();
+
+                    },
+
+                    success: function(data, status){
+                        if(sessionStorage.whisperingto != data){
+                            if(data == sessionStorage.peer){
+                                whisper.style.background = "red";
+                                whisper.value = "Whispering";
+                                whispering = true;
+                                whisper.disabled = false;
+                                webrtc.setMicIfEnabled(1);
+                            }
+                            if(data == 'null'){
+                                whisper.style.background = "#47d475";
+                                whisper.value = "Whisper";
+                                whispering = false;
+                                whisper.disabled = false;
+                                webrtc.setMicIfEnabled(1);
+                            }
+                            if(data != 'null' && data != sessionStorage.peer){
+                                whisper.style.background = "#47d475";
+                                whisper.value = "Whisper";
+                                whispering = false;
+                                whisper.disabled = true;
+                                webrtc.setMicIfEnabled(0);
+                            }
+
+                            sessionStorage.setItem("whisperingto", data);
+                            console.log("whisper status: " + sessionStorage.whisperingto);
+                        }
+                        
+                        checkForWhisper();
+                    }
+                });                
+            }
+
+            $(document).ready(function(){
+                //kick user back a page if he is not registered.
+
+                if(sessionStorage.user == null){
+                    validNavigation = true;
+                    history.back();
+                }
+
+                sessionStorage.setItem("whisperingto", "null");
+                sessionStorage.setItem("stagingprogress", 0);
+                $('#confLabel').text("Conference: " + sessionStorage.confname);
+
+                while($('#username').text() == "undefined" || $('#username').text() == ""){
+                    $('#username').text("Name: " + sessionStorage.user);
+                }
+
+                whisper.disabled = true;
+                $('#whisper').click(function(){
+                    
+                    //$('#whisper').style.background = "#47d475";
+                    //this.value = 'Whispering';
+                    if(!whispering){
+                        console.log("whisper!");
+                        $.ajax({
+                            url:"updatewhisper.php",
+                            type:"GET",
+                            data: {confname: sessionStorage.confname,
+                                whisperingto: sessionStorage.peer,
+                                user: sessionStorage.user},
+                            timeout: 10000,
+                            error: function(xhr){
+                                console.log("Error: " + xhr.status + " " + xhr.statusText);
+
+                            },
+
+                            success: function(data, status){
+                            //whisper.value = 'Whispering';
+                            //whisper.style.background = 'red';
+                            }
+
+
+                        });
+                    }
+
+                    else if(whispering){
+                        console.log("unwhisper!");
+                        $.ajax({
+                            url:"unwhisper.php",
+                            type:"GET",
+                            data: {confname: sessionStorage.confname,
+                            whisperingto: sessionStorage.peer,
+                            user: sessionStorage.user},
+                            timeout: 10000,
+                            error: function(xhr){
+                                console.log("Error: " + xhr.status + " " + xhr.statusText);
+
+                            },
+
+                            success: function(data, status){
+                                            //whisper.value = 'Whispering';
+                                            //whisper.style.background = 'red';
+                            }
+
+
+                        });
+
+                    }
+                });
+
+                updateprogress();
+
+                webrtc.on('readyToCall', function(){             
+                    premature = true;             
+                });
+               
+
+                //fade in the remote video and zoomout the local video when connection is made
+                webrtc.on('channelOpen', function(){
+                    console.log("i can mess around here");
+                    remoteVid = document.querySelector('#remotes video');
+                    console.log(remoteVid.offsetWidth);
+                    connected = true;
+                    remoteVid.onplay = function(){
+               
+                    remoteVid.classList.add('addborder');
+                    sizeVideos(window.innerHeight, window.innerWidth, remoteVid, video);
+                    setRoom(sessionStorage.peer);
+                    whisper.disabled = false;
+
+                    };
+                });
+
+                //zoom in the local video when opponent pulls plug.
+                webrtc.on('videoRemoved', function(){
+                    console.log("SHENANIGAN");
+                    connected = false;
+                    sizeVideo(window.innerHeight, window.innerWidth, video);
+                    webrtc.leaveRoom();
+                    updateStagingProgress();
+                    $('#title').text("Your Friend Left! Awaiting Reconnection..");
+                    whisper.disabled = true;
+                });
+
+
+                window.onbeforeunload = function(){
+                    if(!validNavigation){
+                       //give user warning
+                        return "You will lose session details. Continue?";
+                    }
+                }
+
+                //if user navigates away, delete user from db and local data.
+                //we may have to delete also all local detail in case he uses browser to navigate to other link. the malicious bastard.
+                window.onunload = function(){
+                    if(!validNavigation){
+                        $.ajax({
+                            url:"removeuser.php",
+                            type:"POST",
+                            async: false,
+                            timeout: 4000,
+                            data: {user : sessionStorage.user,
+                                    confname: sessionStorage.confname,
+                                    device: sessionStorage.device},
+                            error: function(xhr){
+                                 alert("Error: " + xhr.status + " " + xhr.statusText);
+                             },
+                            success: function(data, status){
+                                sessionStorage.removeItem("device");
+                                sessionStorage.removeItem("user");
+                                console.log("Status: " + status);
+                            }
+
+
+                        });
+                    }
+                }
+
+                updateStagingProgress();
+                checkForWhisper();
+
+
+            });
+
         </script>
+        <script src = "animator.js"></script>
+        <!--<script src = "functionality.js"></script>-->
         
     </body>
 </html>
